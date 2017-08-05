@@ -149,20 +149,28 @@ if there was a need to improve accuracy further I'd try augmenting the test data
 
 An iterative approach was chosen:
 
+**What was the first architecture that was tried and why was it chosen?**
 The first architecture I tried was the LeNet one, with adaptations for larger-sized
 images required for the traffic signs. I chose it because it was part of the course materials
 and an implementation was easily available.
 
-* What were some problems with the initial architecture?
+**What were some problems with the initial architecture?**
+* The input had large positive-only values which were not zero-centered, resulting in bad accuracy
+* After preprocessing, the training data resulted in overfitting 
 
-* How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.
-* Which parameters were tuned? How were they adjusted and why?
-* What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?
+**How was the architecture adjusted and why was it adjusted? Typical adjustments could include choosing a different model architecture, adding or taking away layers (pooling, dropout, convolution, etc), using an activation function or changing the activation function. One common justification for adjusting an architecture would be due to overfitting or underfitting. A high accuracy on the training set but low accuracy on the validation set indicates over fitting; a low accuracy on both sets indicates under fitting.**
+I used weight clipping and added two dropout layers near the output end of the network to avoid
+overfitting. Since the processed input images are greyscale and
+there are 43 instead of 10 output classes those settings had to be adjusted as well.
 
-If a well known architecture was chosen:
-* What architecture was chosen?
-* Why did you believe it would be relevant to the traffic sign application?
-* How does the final model's accuracy on the training, validation and test set provide evidence that the model is working well?
+**Which parameters were tuned? How were they adjusted and why?**
+Tried different learning rates, ended up using 0.001.
+Increasing the number of epochs past 50 probably won't help much, it seemed to level off there.
+
+**What are some of the important design choices and why were they chosen? For example, why might a convolution layer work well with this problem? How might a dropout layer help with creating a successful model?**
+Convolutional layers help extracting increasingly higher levels of abstraction.
+The dropout layers help prevent overfitting.
+Weight clipping increases the robustness of the network.
  
 
 ###Test a Model on New Images
