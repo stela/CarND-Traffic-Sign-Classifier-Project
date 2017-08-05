@@ -113,6 +113,7 @@ very similar to the LeNet architecture but with the following adaptations:
 | Flatten               | 5x5x16 -> 400                                     |
 | Fully connected		| 400 -> 120        								|
 | RELU					|													|
+| Dropout               | 50% dropout when training, 0% when validating     |
 | Fully connected		| 120 -> 84         								|
 | RELU					|													|
 | Dropout               | 50% dropout when training, 0% when validating     |
@@ -132,15 +133,19 @@ there should be no point in trying to artificially decay the learning rate as ca
 According to [Dropout: A Simple Way to Prevent Neural Networks from Overfitting][dropoutpaper], see e.g. table 3
 of that paper, dropout is superior to L2 regularization, so I used dropout instead.
 I experimented with higher or lower learning rate, but 0.001 worked well.
-Within 10 epochs the network had usually reached its peak accuracy, more epochs added very little if anything.
-The batch size of 128 from the LeNet assignment seemed to work fine.   
+After adding dropout to a second layer, training required more epochs but gave
+better long-term results, probably through reduced overfitting, at least 50 epochs were useful. 
+The batch size of 128 from the LeNet assignment seemed to work fine, so kept it.   
 
 ####4. Describe the approach taken for finding a solution and getting the validation set accuracy to be at least 0.93. Include in the discussion the results on the training, validation and test sets and where in the code these were calculated. Your approach may have been an iterative process, in which case, outline the steps you took to get to the final solution and why you chose those steps. Perhaps your solution involved an already well known implementation or architecture. In this case, discuss why you think the architecture is suitable for the current problem.
 
 My final model results were:
-* training set accuracy of ?
-* validation set accuracy of ? 
-* test set accuracy of ?
+* training set accuracy of 100%
+* validation set accuracy of 96.6% 
+* test set accuracy of 95.3%
+
+The high training set accuracy indicates over overfitting.
+If there was a need to improve accuracy further I'd try augmenting the test data first.  
 
 If an iterative approach was chosen:
 * What was the first architecture that was tried and why was it chosen?
