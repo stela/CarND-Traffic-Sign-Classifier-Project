@@ -17,12 +17,11 @@ The goals / steps of this project are the following:
 
 [imageviz]: ./writeup/visualization.png "Visualization"
 [imageequalized]: ./writeup/equalized.png "Grayscaling"
-[image3]: ./writeup/random_noise.jpg "Random Noise"
-[image4]: ./internet-signs/100.jpg "Traffic Sign 1"
-[image5]: ./internet-signs/stopschild.jpg "Traffic Sign 2"
-[image6]: ./internet-signs/verbot-der-einfahrt.jpg "Traffic Sign 3"
-[image7]: ./internet-signs/vorbeifahrt-rechts.jpg "Traffic Sign 4"
-[image8]: ./internet-signs/vorfahrt.jpg "Traffic Sign 5"
+[sign1]: ./internet-signs/100.jpg "Traffic Sign 1"
+[sign2]: ./internet-signs/stopschild.jpg "Traffic Sign 2"
+[sign3]: ./internet-signs/verbot-der-einfahrt.jpg "Traffic Sign 3"
+[sign4]: ./internet-signs/vorbeifahrt-rechts.jpg "Traffic Sign 4"
+[sign5]: ./internet-signs/vorfahrt.jpg "Traffic Sign 5"
 [dropoutpaper]: https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf "Dropout: A Simple Way to Prevent Neural Networks from Overfitting"
 
 ## Rubric Points
@@ -141,8 +140,8 @@ The batch size of 128 from the LeNet assignment seemed to work fine, so kept it.
 
 My final model results were (using 50 epochs):
 * training set accuracy of 100%
-* validation set accuracy of 96.6% 
-* test set accuracy of 95.3%
+* validation set accuracy of 96.6% (or up to 96.8% using 100 epochs) 
+* test set accuracy of 95.3% (or up to 95.6% using 100 epochs)
 
 The high training set accuracy indicates overfitting,
 if there was a need to improve accuracy further I'd try augmenting the test data first.  
@@ -179,10 +178,15 @@ Weight clipping increases the robustness of the network.
 
 Here are five German traffic signs that I found on the web:
 
-![alt text][image4] ![alt text][image5] ![alt text][image6] 
-![alt text][image7] ![alt text][image8]
+![100 km/h][sign1] ![STOP][sign2] ![No entry][sign3] 
+![Keep right][sign4] ![Yield][sign5]
 
-The first image might be difficult to classify because ...
+All the images were easy to recognize, probably because while many backgrounds
+were non-uniform the signs themselves were clearly visible and not too distorted.
+The highest probability of any second-most-likely sign was just 0.062% (when using 50 epochs),
+which was for the STOP (class 14) sign,
+where the second-most likely "No vehicles" (class 15), which is
+round with a white center and red border, not really that easy to confuse with a stop sign.  
 
 ####2. Discuss the model's predictions on these new traffic signs and compare the results to predicting on the test set. At a minimum, discuss what the predictions were, the accuracy on these new predictions, and compare the accuracy to the accuracy on the test set (OPTIONAL: Discuss the results in more detail as described in the "Stand Out Suggestions" part of the rubric).
 
@@ -190,31 +194,77 @@ Here are the results of the prediction:
 
 | Image			        |     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| Stop Sign      		| Stop sign   									| 
-| U-turn     			| U-turn 										|
-| Yield					| Yield											|
-| 100 km/h	      		| Bumpy Road					 				|
-| Slippery Road			| Slippery Road      							|
+| Speed limit (100km/h) | Speed limit (100km/h)							| 
+| Stop     			    | Stop  										|
+| No entry	      		| No entry   					 				|
+| Keep right			| Keep right									|
+| Yield     			| Yield             							|
 
 
-The model was able to correctly guess 4 of the 5 traffic signs, which gives an accuracy of 80%. This compares favorably to the accuracy on the test set of ...
+The model was able to correctly guess 5 of the 5 traffic signs, which gives an accuracy of 100%.
+This compares favorably to the accuracy on the test set,
+probably thanks to clear unobscured signs.
 
 ####3. Describe how certain the model is when predicting on each of the five new images by looking at the softmax probabilities for each prediction. Provide the top 5 softmax probabilities for each image along with the sign type of each probability. (OPTIONAL: as described in the "Stand Out Suggestions" part of the rubric, visualizations can also be provided such as bar charts)
 
-The code for making predictions on my final model is located in the 11th cell of the Ipython notebook.
+The code for loading and making predictions on the final five downloaded images
+is located in the load_and_score_internet_signs() function and
+softmax_probabilities() does the actual predictions with probabilities.
 
-For the first image, the model is relatively sure that this is a stop sign (probability of 0.6), and the image does contain a stop sign. The top five soft max probabilities were
+For the first image, the model is very sure that this is a stop sign
+(probability of 0.999996),
+and the image does contain a stop sign. The top five soft max probabilities were
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
-| .60         			| Stop sign   									| 
-| .20     				| U-turn 										|
-| .05					| Yield											|
-| .04	      			| Bumpy Road					 				|
-| .01				    | Slippery Road      							|
+| .999996         		| Stop (7)  									| 
+| 3.5e-6   				| Speed limit (80km/h) (5)  					|
+| 5.5e-8				| Speed limit (50km/h) (2)						|
+| 5.0e-11     			| Speed limit (30km/h) (1)		 				|
+| 3.2e-12			    | Roundabout mandatory (40)						|
 
 
-For the second image ... 
+For the second image, the stop sign prediction was the least certain of all.
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 0.98997         		| Stop (14)	    								| 
+| 0.00062    			| No vehicles (15)          					|
+| 0.00013				| Speed limit (60km/h) (3)  					|
+| 0.00012     			| Speed limit (30km/h) (1)		 				|
+| 0.00006			    | Turn right ahead (33) 						|
+
+For the third image, "No entry", the prediction was very certain.  
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 1         		    | No entry (17)	   								| 
+| 6e-12    			    | Stop (14)                   					|
+| 3e-16 				| No passing (9)             					|
+| 2e-16     			| Bumpy road (22)	        	 				|
+| 4e-17			        | Turn left ahead (34)   						|
+
+For the fourth image, "Keep right", the prediction was also very certain  
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 1         		    | Keep right (38)	    						| 
+| 2e-11    			    | Stop (14)                   					|
+| 2e-13				    | Turn left ahead (34)       					|
+| 1e-15     			| Dangerous curve to the right (20)				|
+| 2e-16 			    | Yield (13) 						            |
+
+For the fifth image, "Yield", the prediction was also very certain  
+
+| Probability         	|     Prediction	        					| 
+|:---------------------:|:---------------------------------------------:| 
+| 1              		| Yield (13) 	    			    			| 
+| 1e-18    			    | No vehicles (15)          					|
+| 6e-19		    		| Priority road (12)         					|
+| 6e-21     			| Keep right (38)		 	        			|
+| 1e-23			        | Speed limit (120km/h) (8) 						                    |
+
+ 
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
 ####1. Discuss the visual output of your trained network's feature maps. What characteristics did the neural network use to make classifications?
