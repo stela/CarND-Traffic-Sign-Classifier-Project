@@ -213,7 +213,7 @@ softmax_probabilities() does the actual predictions with probabilities.
 
 For the first image, the model is very sure that this is a stop sign
 (probability of 0.999996),
-and the image does contain a stop sign. The top five soft max probabilities were
+and the image does contain a stop sign. The top five soft max probabilities were:
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -244,7 +244,7 @@ For the third image, "No entry", the prediction was very certain.
 | 2e-16     			| Bumpy road (22)	        	 				|
 | 4e-17			        | Turn left ahead (34)   						|
 
-For the fourth image, "Keep right", the prediction was also very certain  
+For the fourth image, "Keep right", the prediction was also very certain.  
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -254,7 +254,7 @@ For the fourth image, "Keep right", the prediction was also very certain
 | 1e-15     			| Dangerous curve to the right (20)				|
 | 2e-16 			    | Yield (13) 						            |
 
-For the fifth image, "Yield", the prediction was also very certain  
+For the fifth image, "Yield", the prediction was also very certain.  
 
 | Probability         	|     Prediction	        					| 
 |:---------------------:|:---------------------------------------------:| 
@@ -262,8 +262,11 @@ For the fifth image, "Yield", the prediction was also very certain
 | 1e-18    			    | No vehicles (15)          					|
 | 6e-19		    		| Priority road (12)         					|
 | 6e-21     			| Keep right (38)		 	        			|
-| 1e-23			        | Speed limit (120km/h) (8) 						                    |
+| 1e-23			        | Speed limit (120km/h) (8) 					|
 
+Initially I used another yield sign image which was photographed sideways
+and which was also a bit small, it wasn't recognized properly, but the image
+wasn't very representative of the signs in the training data.
  
 
 ### (Optional) Visualizing the Neural Network (See Step 4 of the Ipython notebook for more details)
